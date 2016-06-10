@@ -628,7 +628,7 @@ static NSString * const OCKAttributeNameDayIndex = @"numberOfDaysSinceStart";
          withResult:(OCKCarePlanEventResult *)result
               state:(OCKCarePlanEventState)state
          completion:(void (^)(BOOL success, OCKCarePlanEvent *event, NSError *error))completion {
-    
+
     OCKThrowInvalidArgumentExceptionIfNil(event);
     OCKThrowInvalidArgumentExceptionIfNil(completion);
     

@@ -35,9 +35,10 @@
 #import "NSDateComponents+CarePlanInternal.h"
 #import "OCKHelpers.h"
 
-
 @implementation OCKCarePlanEvent
-
+{
+    int test;
+}
 - (instancetype)initWithCoreDataObject:(OCKCDCarePlanEvent *)cdObject {
     self = [super init];
     if (self) {
@@ -60,12 +61,32 @@
         _numberOfDaysSinceStart = numberOfDaysSinceStart;
         _occurrenceIndexOfDay = occurrenceIndexOfDay;
         _activity = activity;
+        test = 0;
     }
     
     return self;
 }
 
 - (NSDateComponents *)date {
+    //TODO: Note that i changed this
+    test++;
+//    if(_previousState == _state)
+//    {
+//        return _oldDate;
+//    }
+//    else
+//    {
+//        NSLog(@"Test: %i",test);
+//        _oldDate = [[NSCalendar currentCalendar] components:(NSCalendarUnitEra | NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:[NSDate date]];
+//        //NSLog(@"PRE:   Previous: %ld, New:%ld",(long)_previousState,(long)_state);
+//        _previousState = _state;
+//        //NSLog(@"POST:  Previous: %ld, New:%ld",(long)_previousState,(long)_state);
+//        
+//        
+//        return _oldDate;
+//    }
+//    //ORIGINAL
+    NSLog(@"Test: %i",test);
     return [self.activity.schedule.startDate dateCompByAddingDays:self.numberOfDaysSinceStart];
 }
 

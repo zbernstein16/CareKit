@@ -100,6 +100,12 @@ OCK_CLASS_AVAILABLE
  */
 @property (nonatomic, readonly, nullable) OCKCarePlanEventResult *result;
 
+#warning Added below methods
+
+@property (nonatomic) OCKCarePlanEventState previousState;
+@property (nonatomic) NSDateComponents* oldDate;
+
+
 @end
 
 NS_ASSUME_NONNULL_END
