@@ -36,14 +36,14 @@
 #import "OCKHelpers.h"
 
 @implementation OCKCarePlanEvent
-{
-    int test;
-}
+
 - (instancetype)initWithCoreDataObject:(OCKCDCarePlanEvent *)cdObject {
     self = [super init];
     if (self) {
         _occurrenceIndexOfDay = cdObject.occurrenceIndexOfDay.unsignedIntegerValue;
         _numberOfDaysSinceStart = cdObject.numberOfDaysSinceStart.unsignedIntegerValue;
+#warning Added this
+        _timeDate = cdObject.timeDate;
         _state = cdObject.state.integerValue;
         if (cdObject.result) {
              _result = [[OCKCarePlanEventResult alloc] initWithCoreDataObject:cdObject.result];
@@ -61,32 +61,12 @@
         _numberOfDaysSinceStart = numberOfDaysSinceStart;
         _occurrenceIndexOfDay = occurrenceIndexOfDay;
         _activity = activity;
-        test = 0;
     }
     
     return self;
 }
 
 - (NSDateComponents *)date {
-    //TODO: Note that i changed this
-    test++;
-//    if(_previousState == _state)
-//    {
-//        return _oldDate;
-//    }
-//    else
-//    {
-//        NSLog(@"Test: %i",test);
-//        _oldDate = [[NSCalendar currentCalendar] components:(NSCalendarUnitEra | NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:[NSDate date]];
-//        //NSLog(@"PRE:   Previous: %ld, New:%ld",(long)_previousState,(long)_state);
-//        _previousState = _state;
-//        //NSLog(@"POST:  Previous: %ld, New:%ld",(long)_previousState,(long)_state);
-//        
-//        
-//        return _oldDate;
-//    }
-//    //ORIGINAL
-    NSLog(@"Test: %i",test);
     return [self.activity.schedule.startDate dateCompByAddingDays:self.numberOfDaysSinceStart];
 }
 
@@ -124,12 +104,14 @@
 
 
 @implementation OCKCDCarePlanEvent
-
+@dynamic timeDate;
 - (instancetype)initWithEntity:(NSEntityDescription *)entity
 insertIntoManagedObjectContext:(NSManagedObjectContext *)context
                          event:(OCKCarePlanEvent *)event
                       cdResult:(OCKCDCarePlanEventResult *)cdResult
-                    cdActivity:(OCKCDCarePlanActivity *)cdActivity {
+                    cdActivity:(OCKCDCarePlanActivity *)cdActivity
+                          date:(nonnull NSDate *)timeDate
+{
     
     NSParameterAssert(event);
     NSParameterAssert(cdActivity);
@@ -139,14 +121,15 @@ insertIntoManagedObjectContext:(NSManagedObjectContext *)context
         self.occurrenceIndexOfDay = @(event.occurrenceIndexOfDay);
         self.numberOfDaysSinceStart = @(event.numberOfDaysSinceStart);
         self.activity = cdActivity;
-        [self updateWithState:event.state result:cdResult];
+        [self updateWithState:event.state result:cdResult timeDate:timeDate];
     }
     return self;
 }
 
-- (void)updateWithState:(OCKCarePlanEventState)state result:(OCKCDCarePlanEventResult *)result {
+- (void)updateWithState:(OCKCarePlanEventState)state result:(OCKCDCarePlanEventResult *)result timeDate:(nonnull NSDate *)timeDate {
     self.state = @(state);
-    
+    self.timeDate = timeDate;
+    NSLog(@"Here tiemdate:%@",self.timeDate);
     if (result && self.result) {
         [self.result updateWithResult:result];
     } else {

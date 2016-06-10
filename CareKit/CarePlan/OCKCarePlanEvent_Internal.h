@@ -38,7 +38,6 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OCKCarePlanEvent () <OCKCoreDataObjectMirroring, NSCopying>
-
 - (instancetype)initWithNumberOfDaysSinceStart:(NSUInteger)numberOfDaysSinceStart
                           occurrenceIndexOfDay:(NSUInteger)occurrenceIndexOfDay
                                       activity:(OCKCarePlanActivity *)activity;
@@ -53,14 +52,15 @@ NS_ASSUME_NONNULL_BEGIN
 @class OCKCDCarePlanEventResult;
 
 @interface OCKCDCarePlanEvent : NSManagedObject
-
+@property (nonatomic) NSDate* timeDate;
 - (instancetype)initWithEntity:(NSEntityDescription *)entity
-insertIntoManagedObjectContext:(nullable NSManagedObjectContext *)context
+insertIntoManagedObjectContext:(NSManagedObjectContext *)context
                          event:(OCKCarePlanEvent *)event
-                      cdResult:(nullable OCKCDCarePlanEventResult *)cdResult
-                    cdActivity:(OCKCDCarePlanActivity *)cdActivity;
+                      cdResult:(OCKCDCarePlanEventResult *)cdResult
+                    cdActivity:(OCKCDCarePlanActivity *)cdActivity
+                          date:(NSDate*)timeDate;
 
-- (void)updateWithState:(OCKCarePlanEventState)state result:(nullable OCKCDCarePlanEventResult *)result;
+- (void)updateWithState:(OCKCarePlanEventState)state result:(OCKCDCarePlanEventResult *)result timeDate:(NSDate *)timeDate;
 
 @end
 

@@ -677,7 +677,10 @@ static NSString * const OCKAttributeNameDayIndex = @"numberOfDaysSinceStart";
                                                                           event:cdEvent];
                 }
                 
-                [cdEvent updateWithState:copiedEvent.state result:cdResult];
+                NSCalendar *calendar = [NSCalendar currentCalendar];
+                [calendar setTimeZone:[NSTimeZone systemTimeZone]];
+                NSDateComponents *dateComponents = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay|NSCalendarUnitHour|NSCalendarUnitMinute fromDate:[NSDate date]];
+                [cdEvent updateWithState:copiedEvent.state result:cdResult timeDate:[calendar dateFromComponents:dateComponents]];
 
                 saved = [context save:&errorOut];
                 
@@ -703,7 +706,7 @@ static NSString * const OCKAttributeNameDayIndex = @"numberOfDaysSinceStart";
                                                                   insertIntoManagedObjectContext:context
                                                                                            event:copiedEvent
                                                                                         cdResult:nil
-                                                                                      cdActivity:cdActivity];
+                                                                                      cdActivity:cdActivity date:[NSDate date]];
                         
                         OCKCDCarePlanEventResult *cdResult;
                         if (copiedEvent.result) {
@@ -716,8 +719,8 @@ static NSString * const OCKAttributeNameDayIndex = @"numberOfDaysSinceStart";
                                                                                  result:copiedEvent.result
                                                                                   event:cdEvent];
                         }
-                        
-                        [cdEvent updateWithState:copiedEvent.state result:cdResult];
+  
+                        [cdEvent updateWithState:copiedEvent.state result:cdResult timeDate:cdEvent.timeDate];
                         saved = [context save:&errorOut];
                     }
                 }

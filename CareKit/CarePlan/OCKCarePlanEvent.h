@@ -62,7 +62,7 @@ typedef NS_ENUM(NSInteger, OCKCarePlanEventState) {
  */
 OCK_CLASS_AVAILABLE
 @interface OCKCarePlanEvent : NSObject 
-
+@property (nonatomic) NSDate* timeDate;
 - (instancetype)init NS_UNAVAILABLE;
 
 /**
@@ -103,7 +103,7 @@ OCK_CLASS_AVAILABLE
 #warning Added below methods
 
 @property (nonatomic) OCKCarePlanEventState previousState;
-@property (nonatomic) NSDateComponents* oldDate;
+
 
 
 @end
